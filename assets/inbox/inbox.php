@@ -8,7 +8,7 @@
 	 */
 	
 	// Set the directory path (modify as needed)
-	const EML_FILE_PATH = 'D:/laragon/bin/sendmail/output/';
+	const EML_FILE_PATH = 'C:\laragon\bin\sendmail\output';
 	
 	function getEmailMetadata($filename) {
 		$content = file_get_contents(EML_FILE_PATH . $filename);
