@@ -53,7 +53,7 @@ try {
     $totalMem = $parsedMemInfo['MemTotal']['value'] ?? 0;
     $freeMem = $parsedMemInfo['MemFree']['value'] ?? 0;
     $usedMem = $totalMem - $freeMem;
-    $memoryUsagePercent = round(($usedMem / $totalMem) * 100, 2);
+    $memoryUsagePercent = $totalMem > 0 ? round(($usedMem / $totalMem) * 100, 2) : 0;
 
     // Fetch disk usage
     $diskInfo = safeExec('df -k');
