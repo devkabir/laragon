@@ -1,9 +1,10 @@
 <?php
-function nav_class($path) {
-    if ($_SERVER['REQUEST_URI'] === $path ) {
-        return "p-4 bg-gray-700 rounded-md mb-2 text-white flex items-center";
+function nav_class($path)
+{
+    if ($_SERVER['REQUEST_URI'] === $path) {
+        return "p-4 bg-indigo-500 text-gray-600 text-white rounded-lg transition ease-in-out duration-200 mb-2 flex items-center";
     }
-    return "p-4 hover:bg-gray-700 rounded-md mb-2 flex items-center";
+    return "p-4 hover:bg-indigo-500 text-gray-600 hover:text-white rounded-lg transition ease-in-out duration-200 mb-2 flex items-center";
 }
 ?>
 <!DOCTYPE html>
@@ -25,12 +26,14 @@ function nav_class($path) {
             </div>
             <nav class="mt-8 px-4">
                 <ul>
-                    <a href="/" class="<?php echo nav_class('/'); ?>">
+                    <a href="/"
+                        class="<?php echo nav_class('/'); ?>">
                         <span class="mr-3">📁</span>
                         Server
                     </a>
-                    <a href="/inbox" class="<?php echo nav_class('/inbox'); ?>">
-                        <span class="mr-3">📊</span>
+                    <a href="/inbox"
+                        class="<?php echo nav_class('/inbox'); ?> ">
+                        <span class="mr-3">🔧</span>
                         Inbox
                     </a>
                 </ul>

@@ -11,7 +11,7 @@
             .then(mailFiles => {
                 mailFiles.forEach(file => {
                     const mailItem = document.createElement("div");
-                    mailItem.className = "p-4 hover:bg-gray-100 cursor-pointer border-b border-gray-200";
+                    mailItem.className = "p-3 bg-white hover:bg-indigo-100 cursor-pointer rounded-lg shadow-md border border-gray-200 transition ease-in-out duration-200 mb-3";
                     mailItem.textContent = file;
                     mailItem.addEventListener("click", () => fetchMailContent(file));
                     mailListContainer.appendChild(mailItem);
@@ -40,23 +40,23 @@
 </script>
 <div class="flex h-screen">
     <!-- Sidebar: Email List -->
-    <div class="w-1/3 bg-white border-r border-gray-200 overflow-y-auto">
-        <h1 class="text-lg font-bold p-4 bg-gray-200 border-b border-gray-300">Inbox</h1>
-        <div id="mail-list" class="flex flex-col">
+    <div class="w-1/3 bg-gray-50 border-r border-gray-200 overflow-y-auto">
+        <h1 class="text-lg font-bold p-4 bg-indigo-200 text-indigo-900 border-b border-gray-300">Inbox</h1>
+        <div id="mail-list" class="flex flex-col p-4">
             <!-- Email list items will be appended here -->
         </div>
     </div>
 
     <!-- Main Content: Email Viewer -->
     <div class="w-2/3 flex flex-col">
-        <div class="bg-gray-200 p-4 border-b border-gray-300">
-            <h2 id="mail-title" class="text-xl font-semibold">Select an email to view</h2>
+        <div class="bg-indigo-50 p-4 border-b border-gray-300">
+            <h2 id="mail-title" class="text-2xl font-semibold text-gray-700">Select an email to view</h2>
         </div>
         <div id="mail-body" class="flex flex-col gap-4 p-4">
-            <div id="mail-headers" class="bg-white p-4 border border-gray-200 rounded">
-                <p>Select an email to view</p>
+            <div id="mail-headers" class="bg-white p-6 shadow-md border border-gray-200 rounded-lg">
+                <p class="text-gray-500">Select an email to view</p>
             </div>
-            <div id="mail-content" class="p-4">
+            <div id="mail-content" class="p-6 text-gray-700">
                 <!-- Email content will be displayed here -->
             </div>
         </div>
