@@ -10,38 +10,34 @@ function nav_class( $path ) {
 <html lang="en">
 
 <head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Dashboard</title>
-	<script src="https://cdn.tailwindcss.com"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
 </head>
 
-<body class=" font-sans">
-	<div class="flex h-screen">
-		<!-- Sidebar -->
-		<aside class="w-64 bg-slate-100">
-			<div class="p-4">
-				<h1 class="text-lg font-bold">Laragon</h1>
-			</div>
-			<nav class="mt-8 px-4">
-				<ul>
-					<a href="/"
-						class="<?php echo nav_class( '/' ); ?>">
-						<span class="mr-3">📁</span>
-						Server
-					</a>
-					<a href="/inbox"
-						class="<?php echo nav_class( '/inbox' ); ?> ">
-						<span class="mr-3">🔧</span>
-						Inbox
-					</a>
-				</ul>
-			</nav>
-		</aside>
-
-		<!-- Main Content -->
-		<main class="flex-1">
-			<?php
+<body class="w-full h-full font-sans grid grid-cols-1 lg:grid-cols-12">
+    <!-- Left Sidebar -->
+    <aside class="h-full bg-gray-100 p-4 lg:col-span-2">
+        <div class="p-4">
+            <h1 class="text-lg font-bold">Laragon</h1>
+        </div>
+        <nav class="mt-8 px-4">
+            <ul>
+                <a href="/" class="<?php echo nav_class( '/' ); ?>">
+                    <span class="mr-3">📁</span>
+                    Server
+                </a>
+                <a href="/inbox" class="<?php echo nav_class( '/inbox' ); ?> ">
+                    <span class="mr-3">🔧</span>
+                    Inbox
+                </a>
+            </ul>
+        </nav>
+    </aside>
+    <!-- Main Content -->
+    <main class="bg-white lg:col-span-10 min-h-screen">
+        <?php
 			switch ( $_SERVER['REQUEST_URI'] ) {
 				case '/':
 					include __DIR__ . '/server.php';
@@ -54,8 +50,7 @@ function nav_class( $path ) {
 					break;
 			}
 			?>
-		</main>
-	</div>
+    </main>
 </body>
 
 </html>

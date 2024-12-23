@@ -5,11 +5,18 @@
         fetch("/api.php?action=logs")
             .then(response => response.json())
             .then(logs => {
-                logContainer.innerHTML = logs.error;
+                const logsArray = logs.error.split("\r\n").filter(log => log !== "");
+                logsArray.forEach(log => {
+                    const logElement = document.createElement("p");
+                    logElement.classList.add("bg-gray-100", "p-4", "mb-2", "rounded-lg");
+                    logElement.innerText = log;
+                    logContainer.appendChild(logElement);
+                });
             })
      });
 </script>
-<div class="w-7/12">
-    <h1>Server</h1>
-    <pre id="logs"></pre>
+<div class="p-4 space-y-4">
+    <h1 class="text-3xl font-bold">Server Logs</h1>
+    <div id="logs">
+    </div>
 </div>
