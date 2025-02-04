@@ -5,14 +5,32 @@
         const mailHeadersContainer = document.getElementById("mail-headers");
         const mailContentContainer = document.getElementById("mail-content");
         const clearButton = document.getElementById("clear");
+        function getUTCDateFromFilename(filename) {
+            // Extract the date and time parts using a regular expression
+            const match = filename.match(/-(\d{8})-(\d{6})\.\d+/);
+            if (!match) return null; // Return null if the format is incorrect
+
+            const [, dateStr, timeStr] = match;
+
+            // Construct a date string in ISO 8601 format
+            const isoString = `${dateStr.slice(0, 4)}-${dateStr.slice(4, 6)}-${dateStr.slice(6, 8)}T${timeStr.slice(0, 2)}:${timeStr.slice(2, 4)}:${timeStr.slice(4, 6)}Z`;
+
+            // Create a Date object
+            const date = new Date(isoString);
+
+            // Return the UTC string representation
+            return date.toUTCString();
+        }
         // Fetch the list of emails
         fetch("/api.php?action=mails")
             .then(response => response.json())
             .then(mailFiles => {
                 mailFiles.forEach(file => {
+                    console.log(file);
+
                     const mailItem = document.createElement("div");
                     mailItem.className = "p-3 bg-white hover:bg-indigo-100 cursor-pointer rounded-lg shadow-md border border-gray-200 transition ease-in-out duration-200 mb-3";
-                    mailItem.textContent = file;
+                    mailItem.textContent = getUTCDateFromFilename(file);
                     mailItem.addEventListener("click", () => fetchMailContent(file));
                     mailListContainer.appendChild(mailItem);
                 });
@@ -26,7 +44,7 @@
             fetch(`/api.php?action=mails&file=${encodeURIComponent(fileName)}`)
                 .then(response => response.json())
                 .then(data => {
-                    mailTitle.textContent = data.filename;
+                    mailTitle.textContent = getUTCDateFromFilename(data.filename);
                     clearButton.dataset.filename = data.filename;
                     mailHeadersContainer.innerHTML = Object.entries(data.headers)
                         .map(([key, value]) => `<p><strong>${key}:</strong> ${value}</p>`)
@@ -41,7 +59,7 @@
                     mailContentContainer.innerHTML = `<p class="text-red-500">Error loading email content: ${error}</p>`;
                 });
         }
-        
+
         clearButton.addEventListener("click", () => {
             const filename = clearButton.dataset.filename;
             fetch("/api.php?action=mails&file=" + encodeURIComponent(filename) + "&clear=true")
@@ -69,8 +87,10 @@
     <!-- Main Content: Email Viewer -->
     <div class="flex-1">
         <div class="flex px-4 justify-between items-center bg-indigo-200">
-            <h1 id="mail-title" class="text-lg font-bold  py-4 text-indigo-900 border-b border-gray-300">Select an email to view</h1>
-            <button type="button" id="clear" class="px-4 py-1 bg-red-500 text-white rounded-lg hover:bg-red-600 transition ease-in-out duration-200">Delete</button>
+            <h1 id="mail-title" class="text-lg font-bold  py-4 text-indigo-900 border-b border-gray-300">Select an email
+                to view</h1>
+            <button type="button" id="clear"
+                class="px-4 py-1 bg-red-500 text-white rounded-lg hover:bg-red-600 transition ease-in-out duration-200">Delete</button>
         </div>
         <div id="mail-body" class="flex flex-col gap-4 p-4">
             <div id="mail-headers" class="bg-white p-6 shadow-md border border-gray-200 rounded-lg">
