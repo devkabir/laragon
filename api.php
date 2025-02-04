@@ -1,36 +1,34 @@
 <?php
 // phpcs:ignoreFile
 // Ensure 'action' parameter is set
+header( 'Content-Type: application/json' );
 if ( ! isset( $_GET['action'] ) ) {
 	http_response_code( 400 );
 	echo json_encode( array( 'error' => 'Action parameter is missing.' ) );
 	exit;
 }
-
 // Logs action
 if ( 'logs' === $_GET['action'] ) {
-	header( 'Content-Type: application/json' );
 	$errorPath = "C:\\laragon\\tmp\\php_errors.log";
 
 	// Check if the error log file exists
 	if ( file_exists( $errorPath ) ) {
-        if ( isset( $_GET['clear'] ) ) {
-            file_put_contents( $errorPath, '' );
-            echo json_encode( array( 'message' => 'Error log cleared.' ) );
-            exit;
-        }
+		if ( isset( $_GET['clear'] ) ) {
+			file_put_contents( $errorPath, '' );
+			echo json_encode( array( 'message' => 'Error log cleared.' ) );
+			exit;
+		}
 		$errorContent = file_get_contents( $errorPath );
-		echo json_encode( array( 'error' => $errorContent ), JSON_PRETTY_PRINT );
-	} else {
-		http_response_code( 500 );
-		echo json_encode( array( 'error' => 'Error log file not found.' ) );
+		echo json_encode( array( 'error' => empty($errorContent) ? 'No errors found.' : $errorContent  ), JSON_PRETTY_PRINT );
+		exit;
 	}
+	http_response_code( 500 );
+	echo json_encode( array( 'error' => 'Error log file not found.' ) );
 	exit;
 }
 
 // Mails action
 if ( 'mails' === $_GET['action'] ) {
-	header( 'Content-Type: application/json' );
 	$mailDir = "C:\\laragon\\bin\\sendmail\\output";
 
 	// Check if the mail directory exists
@@ -51,15 +49,27 @@ if ( 'mails' === $_GET['action'] ) {
 			exit;
 		}
 
+		if ( file_exists( $filePath ) ) {
+			if ( isset( $_GET['clear'] ) ) {
+				if ( is_writable( $filePath ) ) {
+					unlink($filePath);
+					echo json_encode( array( 'message' => 'Mail removed' ) );
+				} else {
+					echo json_encode( array( 'error' => 'File is not writable' ) );
+				}
+				exit;
+			}
+		}
+
 		// Retrieve the file content
 		$fileContent = file_get_contents( $filePath );
 		// Split the file into headers and body
-		$parts   = preg_split( "/\r?\n\r?\n/", $fileContent, 2 );
+		$parts = preg_split( "/\r?\n\r?\n/", $fileContent, 2 );
 		$headers = isset( $parts[0] ) ? $parts[0] : '';
-		$body    = isset( $parts[1] ) ? $parts[1] : '';
+		$body = isset( $parts[1] ) ? $parts[1] : '';
 
 		// Parse headers into key-value pairs
-		$parsed  = array();
+		$parsed = array();
 		$headers = explode( "\r\n", $headers );
 		foreach ( $headers as $header ) {
 			if ( preg_match( '/^([^:]+):\s*(.+)$/', $header, $matches ) ) {
@@ -71,8 +81,8 @@ if ( 'mails' === $_GET['action'] ) {
 		echo json_encode(
 			array(
 				'filename' => $_GET['file'],
-				'headers'  => $parsed,
-				'body'     => $body,
+				'headers' => $parsed,
+				'body' => $body,
 			),
 			JSON_PRETTY_PRINT
 		);

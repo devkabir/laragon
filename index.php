@@ -1,7 +1,7 @@
 <?php
 function nav_class( $path ) {
 	if ( $_SERVER['REQUEST_URI'] === $path ) {
-		return 'p-4 bg-indigo-500 text-gray-600 text-white rounded-lg transition ease-in-out duration-200 mb-2 flex items-center';
+		return 'p-4 bg-gray-200 text-gray-600 rounded-lg transition ease-in-out duration-200 mb-2 flex items-center';
 	}
 	return 'p-4 hover:bg-indigo-500 text-gray-600 hover:text-white rounded-lg transition ease-in-out duration-200 mb-2 flex items-center';
 }
@@ -25,12 +25,16 @@ function nav_class( $path ) {
         <nav class="mt-8 px-4">
             <ul>
                 <a href="/" class="<?php echo nav_class( '/' ); ?>">
-                    <span class="mr-3">📁</span>
-                    Server
+                    <span class="mr-3">ℹ️</span>
+                    Server Info
                 </a>
                 <a href="/inbox" class="<?php echo nav_class( '/inbox' ); ?> ">
-                    <span class="mr-3">🔧</span>
+                    <span class="mr-3">📧</span>
                     Inbox
+                </a>
+                <a href="/logs" class="<?php echo nav_class( '/logs' ); ?> ">
+                    <span class="mr-3">🏴󠁡󠁦󠁬󠁯󠁧󠁿</span>
+                    Logs
                 </a>
             </ul>
         </nav>
@@ -39,14 +43,14 @@ function nav_class( $path ) {
     <main class="bg-white lg:col-span-10 min-h-screen">
         <?php
 			switch ( $_SERVER['REQUEST_URI'] ) {
-				case '/':
-					include __DIR__ . '/server.php';
+				case '/logs':
+					include __DIR__ . '/logs.php';
 					break;
 				case '/inbox':
 					include __DIR__ . '/inbox.php';
 					break;
 				default:
-					echo $_SERVER['QUERY_STRING'];
+					phpinfo();
 					break;
 			}
 			?>
