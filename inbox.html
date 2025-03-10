@@ -58,7 +58,7 @@
                         let urlRegex = /(https?:\/\/[^\s]+)/g;
 
                         // Replace plain-text URLs with anchor tags
-                        mailContentContainer.innerHTML = '<pre>' + data.body.replace(urlRegex, function(url) {
+                        mailContentContainer.innerHTML = '<pre>' + data.body.replace(urlRegex, function (url) {
                             return `<a href="${url}" target="_blank">${url}</a>`;
                         }) + '</pre>';
                     }
@@ -98,7 +98,7 @@
 </script>
 <div class="flex h-screen">
     <!-- Sidebar: Email List -->
-    <div class="w-64 bg-gray-50 border-r border-gray-200 overflow-y-auto">
+    <div class="w-1/4 bg-gray-50 border-r border-gray-200 overflow-y-auto">
         <div class="flex px-4 justify-between items-center bg-indigo-200">
             <h1 class="text-lg font-bold p-4 bg-indigo-200 text-indigo-900 border-b border-gray-300">Inbox</h1>
             <button type="button" id="clear-all">🗑️</button>
@@ -109,7 +109,7 @@
     </div>
 
     <!-- Main Content: Email Viewer -->
-    <div class="flex-1">
+    <div class="w-3/4 bg-gray-100 overflow-y-auto">
         <div class="flex px-4 justify-between items-center bg-indigo-200">
             <h1 id="mail-title" class="text-lg font-bold  py-4 text-indigo-900 border-b border-gray-300">Select an email
                 to view</h1>
